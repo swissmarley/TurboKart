@@ -72,7 +72,7 @@ export class UI {
     this._subs = [
       on(EVENTS.INPUT_MENU, (e) => this._onMenuInput(e)),
       on(EVENTS.INPUT_DEVICE, ({ device }) => {
-        this.el.dataset.device = device === 'gamepad' ? 'gamepad' : 'keyboard';
+        this.el.dataset.device = device === 'gamepad' || device === 'touch' ? device : 'keyboard';
       }),
       on(EVENTS.RACE_LOADING, ({ progress, label }) => {
         if (this.screens.loading.active) this.showLoading(progress, label);

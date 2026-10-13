@@ -70,6 +70,8 @@ export class Input {
     this.enabled = true;
     this.keys = new Set();
     this.device = 'keyboard';
+    /** Optional on-screen touch controls (mobile only), see attachTouch(). */
+    this.touch = null;
 
     this._prev = { item: false, pause: false };
     this._pressedThisFrame = { item: false, pause: false };
@@ -177,6 +179,20 @@ export class Input {
 
     if (pause) this.bus.emit(EVENTS.INPUT_MENU, { action: 'pause' });
 
+    const touch = this.touch;
+    if (touch && touch.active) {
+      const t = touch.state;
+      if (t.steerActive) steer = t.steer;
+      if (t.brake) {
+        brake = 1;
+        throttle = 0;
+      } else {
+        throttle = Math.max(throttle, touch.throttle());
+      }
+      drift = drift || t.drift;
+      item = item || t.item;
+    }
+
     const c = this.controls;
     if (!this.enabled) {
       throttle = 0;
@@ -224,6 +240,19 @@ export class Input {
     }
   }
 
+  /** Merge on-screen touch controls into the driving controls (mobile only). */
+  attachTouch(touch) {
+    this.touch = touch;
+    window.addEventListener(
+      'pointerdown',
+      (e) => {
+        if (e.pointerType === 'touch') this._setDevice('touch');
+      },
+      { capture: true, passive: true },
+    );
+    this._setDevice('touch');
+  }
+
   /** Current driving controls for the player kart (same object every call). */
   getKartControls() {
     return this.controls;
@@ -235,6 +264,10 @@ export class Input {
 
   /** Short rumble on supported gamepads. */
   rumble(strength = 0.5, durationMs = 120) {
+    if (this.device === 'touch') {
+      if (navigator.vibrate) navigator.vibrate(Math.round(durationMs * Math.min(1, strength + 0.3)));
+      return;
+    }
     const pad = this._getPad();
     const act = pad && pad.vibrationActuator;
     if (act && act.playEffect) {

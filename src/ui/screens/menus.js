@@ -79,6 +79,7 @@ export class TitleScreen extends Screen {
         chevrons('is-left'),
         h('span', { class: 'tk-press__txt k' }, 'Press ', h('span', { class: 'tk-key tk-key--big' }, 'Enter')),
         h('span', { class: 'tk-press__txt g' }, 'Press ', h('span', { class: 'tk-key tk-key--a tk-key--big' }, 'A')),
+        h('span', { class: 'tk-press__txt t' }, 'Tap to start'),
         chevrons('is-right'),
       ),
       h('div', { class: 'tk-title__foot' }, '© 2026 TurboKart Racing Club  ·  All characters & tracks original'),

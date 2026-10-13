@@ -4,7 +4,7 @@ An arcade kart racer in the spirit of Mario Kart, built with **Three.js r186** +
 All art, music and sound effects are generated procedurally in code — there are no asset files.
 
 **▶ Play in your browser: https://swissmarley.github.io/TurboKart/**
-(desktop browser with keyboard or gamepad recommended)
+(desktop with keyboard/gamepad, or phone/tablet in landscape with touch controls)
 
 ## Run
 
@@ -27,6 +27,20 @@ Every push to `main` builds the game and deploys it to GitHub Pages via `.github
 | Use item (hold to drag bananas/shells) | E / X / F | LB or Y |
 | Look back | C / Q | X |
 | Pause | Esc / P | Start |
+
+### Touch (phones & tablets only)
+
+Touch controls appear automatically on devices whose primary input is touch; desktops are unaffected.
+Hold the phone in landscape. The kart accelerates automatically.
+
+| Action | Touch |
+|---|---|
+| Steer | Drag anywhere on the left half (floating stick) |
+| Hop & drift | **DRIFT** button (glows blue/orange/purple as the mini-turbo charges) |
+| Use item | **ITEM** button (pulses when an item is ready; hold to drag bananas/shells) |
+| Brake / reverse | **BRAKE** button |
+| Pause | Pause button, top centre |
+| Rocket start | Touch and hold the screen as the "2" disappears in the countdown |
 
 Tips: hold drift through a corner until the sparks turn blue → orange → purple, then release for a mini-turbo.
 Press accelerate just as the "2" disappears in the countdown for a rocket start. Press drift off a ramp for a trick boost.

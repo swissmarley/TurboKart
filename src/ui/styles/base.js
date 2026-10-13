@@ -137,6 +137,8 @@ export const baseCSS = `
 .tk-key--big.tk-key--a { padding: 0; font-size: ${u(3)}; border-radius: 50%; }
 .tk-ui[data-device="gamepad"] .k { display: none !important; }
 .tk-ui:not([data-device="gamepad"]) .g { display: none !important; }
+.tk-ui[data-device="touch"] .k { display: none !important; }
+.tk-ui:not([data-device="touch"]) .t { display: none !important; }
 
 /* ---------- backdrops ---------- */
 .tk-backdrop { position: absolute; inset: 0; pointer-events: none; }

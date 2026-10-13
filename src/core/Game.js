@@ -3,6 +3,7 @@ import { EventBus } from './EventBus.js';
 import { Input } from './Input.js';
 import { RaceManager } from './RaceManager.js';
 import { Showroom } from './Showroom.js';
+import { TouchControls, IS_MOBILE } from './TouchControls.js';
 import {
   EVENTS,
   GAME_STATES,
@@ -84,7 +85,12 @@ export class Game {
   }
 
   async init() {
-    this.settings = { ...DEFAULT_SETTINGS, ...loadJSON(SETTINGS_STORAGE_KEY, {}) };
+    // Phones/tablets default to medium graphics; an explicit saved setting always wins.
+    this.settings = {
+      ...DEFAULT_SETTINGS,
+      ...(IS_MOBILE ? { quality: 'medium' } : {}),
+      ...loadJSON(SETTINGS_STORAGE_KEY, {}),
+    };
 
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
@@ -124,6 +130,11 @@ export class Game {
       settings: this.settings,
     });
     this.showroom = new Showroom({ createKartModel, characters: CHARACTERS });
+    this.touch = null;
+    if (IS_MOBILE) {
+      this.touch = new TouchControls({ bus: this.bus, onPause: () => this._defer(() => this._pause()) });
+      this.input.attachTouch(this.touch);
+    }
 
     this._bindEvents();
     this._onResize = this._onResize.bind(this);
@@ -132,11 +143,15 @@ export class Game {
 
     const unlock = () => {
       this.audio.unlock();
+      if (IS_MOBILE) this._goFullscreen();
       window.removeEventListener('pointerdown', unlock);
       window.removeEventListener('keydown', unlock);
+      window.removeEventListener('touchend', unlock);
     };
     window.addEventListener('pointerdown', unlock);
     window.addEventListener('keydown', unlock);
+    // iOS only resumes audio from touchend/click gestures.
+    if (IS_MOBILE) window.addEventListener('touchend', unlock);
     document.addEventListener('visibilitychange', () => {
       if (params.has('nopause')) return;
       if (document.hidden && [S.RACING, S.COUNTDOWN, S.INTRO].includes(this.state)) this._pause();
@@ -237,6 +252,39 @@ export class Game {
     }
   }
 
+  /** Mobile: try fullscreen + landscape lock (silently unsupported on iPhone Safari). */
+  _goFullscreen() {
+    const el = document.documentElement;
+    const req = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (!req || document.fullscreenElement) return;
+    try {
+      const p = req.call(el, { navigationUI: 'hide' });
+      if (p && p.then) {
+        p.then(() => screen.orientation?.lock?.('landscape')).catch(() => {});
+      }
+    } catch {
+      /* ignore */
+    }
+  }
+
+  _updateTouch() {
+    const t = this.touch;
+    const s = this.session;
+    const show =
+      this.input.device === 'touch' &&
+      !!s &&
+      !s.attract &&
+      !!s.player &&
+      [S.INTRO, S.COUNTDOWN, S.RACING].includes(this.state);
+    t.setActive(show);
+    if (!show) return;
+    t.autoThrottle = this.state === S.RACING;
+    const p = s.player;
+    t.setDriftLevel(p.isDrifting ? p.driftLevel : 0);
+    const item = s.items.getItemState(p);
+    t.setItemReady(!!item.type && !item.roulette);
+  }
+
   _playMusic(id) {
     if (this._music === id) return;
     this._music = id;
@@ -253,6 +301,8 @@ export class Game {
     this.camera.updateProjectionMatrix();
     this.effects.setSize(w, h, pr);
     this.showroom.resize(w, h);
+    // Mobile: turning the phone to portrait mid-race pauses (the rotate prompt covers the screen).
+    if (IS_MOBILE && h > w && [S.RACING, S.COUNTDOWN, S.INTRO].includes(this.state)) this._defer(() => this._pause());
   }
 
   // ---------------------------------------------------------------------------
@@ -727,6 +777,7 @@ export class Game {
   }
 
   _tick(dt) {
+    if (this.touch) this._updateTouch();
     this.input.update();
     const pending = this._pending;
     this._pending = [];
