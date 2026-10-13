@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TurboKart — Items & AI sandbox</title>
+    <style>
+      html, body { margin: 0; height: 100%; overflow: hidden; background: #0b0d14; font-family: system-ui, sans-serif; }
+      canvas { display: block; }
+      #labels { z-index: 2; position: fixed; inset: 0; pointer-events: none; }
+      .lbl { position: absolute; transform: translate(-50%, 0); color: #fff; font: 700 13px/1 system-ui, sans-serif;
+             text-shadow: 0 1px 3px rgba(0,0,0,.6); background: rgba(10,14,30,.35); padding: 4px 8px; border-radius: 10px; white-space: nowrap; }
+      #hud { z-index: 2; position: fixed; left: 10px; top: 10px; color: #dfe6ff; font: 12px/1.35 ui-monospace, monospace;
+             background: rgba(5,8,18,.6); padding: 8px 10px; border-radius: 8px; white-space: pre; pointer-events: none; }
+      #mini { z-index: 2; position: fixed; right: 10px; top: 10px; border-radius: 8px; background: rgba(5,8,18,.6); }
+    </style>
+  </head>
+  <body>
+    <div id="labels"></div>
+    <div id="hud"></div>
+    <script type="module" src="./items.js"></script>
+  </body>
+</html>

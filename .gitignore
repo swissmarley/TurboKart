@@ -1,0 +1,20 @@
+# dependencies & build output
+node_modules/
+dist/
+
+# local tooling / editor / OS
+.claude/
+.vscode/
+.idea/
+.DS_Store
+*.log
+
+# env & secrets (none used, kept as a safeguard)
+.env
+.env.*
+*.pem
+*.key
+
+# test screenshots & captures
+*.png.log
+dev/**/*.png

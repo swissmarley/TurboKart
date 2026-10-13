@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>TurboKart — UI sandbox</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet" />
+    <style>
+      html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #05060a; }
+      #game-canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+      #ui-root { position: fixed; inset: 0; pointer-events: none; }
+
+      /* Fake "3D scene" behind the UI */
+      #fake-scene { position: fixed; inset: 0; overflow: hidden; }
+      #fake-scene .sky { position: absolute; inset: 0; background: linear-gradient(180deg, #2f7bff 0%, #6fc3ff 38%, #ffd9a8 58%, #ff9a6a 64%); }
+      #fake-scene .sun { position: absolute; left: 62%; top: 30%; width: 22vmin; height: 22vmin; border-radius: 50%; background: radial-gradient(circle, #fff8d0, #ffd23f 55%, rgba(255,160,40,0) 72%); filter: blur(4px); }
+      #fake-scene .hill { position: absolute; border-radius: 50%; filter: blur(10px); }
+      #fake-scene .h1 { left: -20%; top: 52%; width: 80%; height: 60%; background: #3fae4a; }
+      #fake-scene .h2 { left: 40%; top: 55%; width: 90%; height: 60%; background: #2e8f3e; }
+      #fake-scene .h3 { left: 10%; top: 62%; width: 100%; height: 60%; background: #5cc84a; }
+      #fake-scene .road { position: absolute; left: 50%; bottom: -5%; width: 120vmin; height: 46%; transform: translateX(-50%) perspective(400px) rotateX(58deg); background: repeating-linear-gradient(90deg, #444 0 46%, #fff 46% 48%, #444 48% 100%); border-left: 3vmin solid #ff3d4d; border-right: 3vmin solid #ff3d4d; filter: blur(3px); }
+      #fake-scene .kart { position: absolute; left: 50%; bottom: 14%; width: 16vmin; height: 10vmin; transform: translateX(-50%); border-radius: 3vmin 3vmin 1.5vmin 1.5vmin; background: linear-gradient(#ff5a5a, #b0102a); box-shadow: 0 2vmin 2vmin rgba(0,0,0,.4); filter: blur(1.5px); }
+      #fake-scene.showroom .sky { background: linear-gradient(180deg, #3a1f8a 0%, #1b1450 55%, #0b0a1f 100%); }
+      #fake-scene.showroom .sun, #fake-scene.showroom .hill, #fake-scene.showroom .road { display: none; }
+      #fake-scene.showroom .kart { left: 70%; bottom: 40%; width: 26vmin; height: 15vmin; }
+      #fake-scene.showroom .podium { display: block; }
+      #fake-scene .podium { display: none; position: absolute; left: 70%; bottom: 28%; width: 46vmin; height: 12vmin; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(ellipse, #3a3070, #1b1640 70%); box-shadow: 0 0 0 0.6vmin #66e0ff, 0 0 5vmin #33c8ff; }
+    </style>
+  </head>
+  <body>
+    <div id="fake-scene"><div class="sky"></div><div class="sun"></div><div class="hill h1"></div><div class="hill h2"></div><div class="hill h3"></div><div class="road"></div><div class="podium"></div><div class="kart"></div></div>
+    <div id="ui-root"></div>
+    <script type="module" src="./ui-sandbox.js"></script>
+  </body>
+</html>

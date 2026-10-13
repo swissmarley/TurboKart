@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TurboKart Audio sandbox</title>
+    <style>
+      :root { --bg: #0d0f1a; --panel: #171a2b; --ink: #e8ebff; --dim: #8a90b8; --acc: #6a4cff; --ok: #3cd17a; --bad: #ff4d6d; }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.4 system-ui, sans-serif; padding: 16px; }
+      h1 { font-size: 20px; margin: 0 0 4px; }
+      h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--dim); margin: 18px 0 8px; }
+      .row { display: flex; flex-wrap: wrap; gap: 6px; }
+      button { background: #262b47; color: var(--ink); border: 0; border-radius: 8px; padding: 7px 11px; font: inherit; cursor: pointer; }
+      button:hover { background: #343a60; }
+      button.on { background: var(--acc); }
+      .panel { background: var(--panel); border-radius: 12px; padding: 12px 14px; margin-bottom: 12px; }
+      label { display: inline-flex; align-items: center; gap: 6px; margin-right: 14px; color: var(--dim); }
+      input[type=range] { width: 140px; }
+      table { border-collapse: collapse; width: 100%; font: 12px ui-monospace, monospace; }
+      td, th { padding: 3px 8px; border-bottom: 1px solid #23273d; text-align: left; }
+      .OK { color: var(--ok); } .FAIL { color: var(--bad); } .WARN { color: #ffb84d; }
+      #status { color: var(--dim); }
+      .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 12px; }
+    </style>
+  </head>
+  <body>
+    <h1>TurboKart audio sandbox</h1>
+    <div id="status">Click anywhere to unlock audio. Add <code>?offline=1</code> to run the automated offline render checks.</div>
+    <div id="app"></div>
+    <script type="module" src="./audio.js"></script>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TurboKart — track sandbox</title>
+<script>
+  // Headless captures: block Vite's HMR socket so edits by other modules can't reload the page mid-capture.
+  if (/HeadlessChrome/.test(navigator.userAgent)) {
+    window.WebSocket = class { constructor() {} addEventListener() {} removeEventListener() {} send() {} close() {} };
+  }
+</script>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #000; font: 12px/1.35 system-ui, sans-serif; }
+  canvas { display: block; width: 100%; height: 100%; }
+  #hud { position: fixed; left: 8px; top: 8px; color: #fff; background: rgba(0,0,0,0.45); padding: 6px 8px; border-radius: 6px; white-space: pre; pointer-events: none; }
+  #hud.hidden { display: none; }
+  #bar { position: fixed; left: 0; bottom: 0; height: 4px; background: #4cf; width: 0; transition: width 0.1s; }
+</style>
+</head>
+<body>
+<div id="hud" class="hidden"></div>
+<div id="bar"></div>
+<script type="module" src="./track-sandbox.js"></script>
+</body>
+</html>

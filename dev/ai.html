@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TurboKart — AI race sandbox</title>
+    <style>
+      html, body { margin: 0; height: 100%; overflow: hidden; background: #05060a; }
+      canvas:not(#mini) { display: block; position: fixed; inset: 0; }
+      #hud { z-index: 2; position: fixed; left: 10px; top: 10px; color: #e8ecff; font: 12px/1.35 ui-monospace, monospace;
+             background: rgba(5,8,18,.62); padding: 8px 10px; border-radius: 8px; white-space: pre; pointer-events: none; }
+      #mini { z-index: 2; position: fixed; right: 10px; top: 10px; border-radius: 8px; background: rgba(5,8,18,.55); }
+    </style>
+  </head>
+  <body>
+    <div id="hud">loading…</div>
+    <canvas id="mini" width="260" height="260"></canvas>
+    <script type="module" src="./ai.js"></script>
+  </body>
+</html>
